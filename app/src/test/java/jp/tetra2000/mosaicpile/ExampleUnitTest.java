@@ -1,4 +1,4 @@
-package jp.tetra2000.androidprocessingtest;
+package jp.tetra2000.mosaicpile;
 
 import org.junit.Test;
 
