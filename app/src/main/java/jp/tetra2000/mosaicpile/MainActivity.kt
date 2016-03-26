@@ -1,4 +1,4 @@
-package jp.tetra2000.androidprocessingtest
+package jp.tetra2000.mosaicpile
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
-import jp.tetra2000.androidprocessingtest.databinding.ActivityMainBinding
+import jp.tetra2000.mosaicpile.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private val REQUEST_CODE_CAMERA = 1;
