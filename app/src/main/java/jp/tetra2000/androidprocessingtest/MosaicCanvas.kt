@@ -1,8 +1,9 @@
 package jp.tetra2000.androidprocessingtest
 
+import android.graphics.Bitmap
 import processing.core.PApplet
 
-class Sketch : PApplet() {
+class MosaicCanvas : PApplet(), MainActivity.NewImageCallback {
     override fun settings() {
 
     }
@@ -12,8 +13,10 @@ class Sketch : PApplet() {
     }
 
     override fun draw() {
-        if (mousePressed) {
-            ellipse(mouseX.toFloat(), mouseY.toFloat(), 50f, 50f)
-        }
+
+    }
+
+    override fun onNewImage(bitmap: Bitmap) {
+
     }
 }
