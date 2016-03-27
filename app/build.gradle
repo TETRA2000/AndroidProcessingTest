@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "jp.tetra2000.mosaicpile"
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 22 //FIXME temporary downgrade
         versionCode 1
         versionName "1.0"
     }
