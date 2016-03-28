@@ -1,52 +1,73 @@
 package jp.tetra2000.mosaicpile
 
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
+import android.graphics.ImageFormat
+import android.graphics.SurfaceTexture
+import android.hardware.Camera
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import jp.tetra2000.mosaicpile.databinding.ActivityMainBinding
+import jp.tetra2000.mosaicpile.util.CameraUtil
 
 class MainActivity : AppCompatActivity() {
-    private val REQUEST_CODE_CAMERA = 1;
-
     var newImageCallback: NewImageCallback? = null
     private var binding: ActivityMainBinding? = null
+    private var camera: Camera? = null
+    private var hiddenSurfaceTexture = SurfaceTexture(10)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding?.cameraButton?.setOnClickListener { sendCameraIntent() }
 
         val fragmentManager = fragmentManager
         val fragment = MosaicCanvas()
         newImageCallback = fragment
-        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
+//        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        when (requestCode) {
-            REQUEST_CODE_CAMERA -> {
-                if (resultCode == RESULT_OK) {
-                    val bitmap: Bitmap? = data.extras?.getParcelable<Bitmap>("data")
-                    if (bitmap!=null) {
-                        newImageCallback?.onNewImage(bitmap)
-                    }
-                } else {
-                    //TODO
-//                    finish()
-                }
+    override fun onResume() {
+        super.onResume()
+        openCamera()
+    }
+
+    override fun onPause() {
+        releaseCamera()
+        super.onPause()
+    }
+
+
+    private fun openCamera() {
+        camera = Camera.open(0)
+
+        val params = camera?.parameters
+        params?.previewFormat = ImageFormat.NV21
+        camera?.parameters = params
+
+        CameraUtil.setCameraDisplayOrientation(this, 0, camera)
+
+        val previewSize = params?.previewSize
+        if (previewSize != null) {
+            // set empty preview texture
+            camera?.setPreviewTexture(hiddenSurfaceTexture)
+            camera?.setPreviewCallback { bytes, camera ->
+                newImageCallback?.onNewImage(
+                        CameraUtil.bitmapFromPreview(bytes, ImageFormat.NV21, previewSize.width, previewSize.height)
+                )
+
+                // TODO remove
+                binding?.imageView?.setImageBitmap(CameraUtil.bitmapFromPreview(bytes, ImageFormat.NV21, previewSize.width, previewSize.height))
             }
-            else -> super.onActivityResult(requestCode, resultCode, data)
+
+            camera?.startPreview()
         }
     }
 
-    private fun sendCameraIntent() {
-        val intent = Intent()
-        intent.action = MediaStore.ACTION_IMAGE_CAPTURE
-        intent.addCategory(Intent.CATEGORY_DEFAULT)
-        startActivityForResult(intent, REQUEST_CODE_CAMERA)
+    private fun releaseCamera() {
+        camera?.setPreviewCallback(null)
+        camera?.release()
+        camera = null
     }
 
     interface NewImageCallback {
