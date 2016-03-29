@@ -22,9 +22,8 @@ class MosaicCanvas : PApplet(), MainActivity.NewImageCallback {
         if (lastFrame!=null) {
             for (y in (0..lastFrame!!.height-1)){
                 for (x in (0..lastFrame!!.width-1)) {
-                    Log.d(LOG_TAG, lastFrame!!.getPixel(x, y).toString() + "," + lastFrame!!.width.toString() + ", " + lastFrame!!.height.toString())
-
-                    color(lastFrame!!.getPixel(x, y))
+                    fill(lastFrame!!.getPixel(x, y))
+                    stroke(lastFrame!!.getPixel(x, y))
                     point(x.toFloat(), y.toFloat())
                 }
             }
@@ -32,7 +31,7 @@ class MosaicCanvas : PApplet(), MainActivity.NewImageCallback {
     }
 
     override fun onNewImage(bitmap: Bitmap) {
-        Log.d(LOG_TAG, "onNewImage")
+        Log.d(LOG_TAG, "onNewImage: " + bitmap.width + "x" + bitmap.height)
         lastFrame = bitmap
     }
 }
