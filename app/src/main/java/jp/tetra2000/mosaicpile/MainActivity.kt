@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager = fragmentManager
         val fragment = MosaicCanvas()
         newImageCallback = fragment
-//        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
+        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit()
     }
 
     override fun onResume() {
@@ -55,9 +55,6 @@ class MainActivity : AppCompatActivity() {
                 newImageCallback?.onNewImage(
                         CameraUtil.bitmapFromPreview(bytes, ImageFormat.NV21, previewSize.width, previewSize.height)
                 )
-
-                // TODO remove
-                binding?.imageView?.setImageBitmap(CameraUtil.bitmapFromPreview(bytes, ImageFormat.NV21, previewSize.width, previewSize.height))
             }
 
             camera?.startPreview()
