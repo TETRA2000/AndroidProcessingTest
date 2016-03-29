@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.ImageFormat
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -65,6 +66,12 @@ class MainActivity : AppCompatActivity() {
         camera?.setPreviewCallback(null)
         camera?.release()
         camera = null
+    }
+
+    private class ConvertPixelFormatTask: AsyncTask<ByteArray, Int, Bitmap>() {
+        override fun doInBackground(vararg params: ByteArray?): Bitmap? {
+            throw UnsupportedOperationException()
+        }
     }
 
     interface NewImageCallback {
