@@ -10,12 +10,10 @@ import android.os.Bundle
 import android.renderscript.Allocation
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicYuvToRGB
-import android.renderscript.Type
 import android.support.v7.app.AppCompatActivity
 import jp.tetra2000.mosaicpile.databinding.ActivityMainBinding
 import jp.tetra2000.mosaicpile.util.CameraUtil
 import jp.tetra2000.mosaicpile.util.RawImage
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val NUM_BITMAPS = 1
@@ -111,50 +109,6 @@ class MainActivity : AppCompatActivity() {
         var newImageCallback: NewImageCallback? = null
         var renderScript: RenderScript? = null
 
-        private var ay: Allocation? = null
-        private var au: Allocation? = null
-        private var av: Allocation? = null
-
-//        private var by: ByteArray? = null
-//        private var bv: ByteArray? = null
-//        private var bu: ByteArray? = null
-
-//        private var width = 0
-//        private var height = 0
-
-//        internal fun getCWidth(): Int {
-//            return (width + 1) / 2
-//        }
-//
-//        internal fun getCHeight(): Int {
-//            return (height + 1) / 2
-//        }
-
-//        protected fun makeYuvBuffer(w: Int, h: Int) {
-//            val r = Random()
-//            width = w
-//            height = h
-//            by = ByteArray(w * h)
-//            bu = ByteArray(getCWidth() * getCHeight())
-//            bv = ByteArray(getCWidth() * getCHeight())
-//            for (i in by!!.indices) {
-//                by!![i] = r.nextInt(256).toByte()
-//            }
-//            for (i in bu!!.indices) {
-//                bu!![i] = r.nextInt(256).toByte()
-//            }
-//            for (i in bv!!.indices) {
-//                bv!![i] = r.nextInt(256).toByte()
-//            }
-//            ay = android.renderscript.Allocation.createTyped(renderScript, android.renderscript.Type.createXY(renderScript, android.renderscript.Element.U8(renderScript), w, h))
-//            val tuv = android.renderscript.Type.createXY(renderScript, android.renderscript.Element.U8(renderScript), w shr 1, h shr 1)
-//            au = android.renderscript.Allocation.createTyped(renderScript, tuv)
-//            av = android.renderscript.Allocation.createTyped(renderScript, tuv)
-//            ay?.copyFrom(by)
-//            au?.copyFrom(bu)
-//            av?.copyFrom(bv)
-//        }
-
         override fun doInBackground(vararg params: RawImage?): Bitmap? {
             val rawImage = params[0]
             if (rawImage!=null) {
@@ -168,7 +122,6 @@ class MainActivity : AppCompatActivity() {
                 tb.setY(height)
                 tb.setYuvFormat(android.graphics.ImageFormat.NV21)
                 val ta = android.renderscript.Allocation.createTyped(renderScript, tb.create(), android.renderscript.Allocation.USAGE_SCRIPT)
-//                val tmp = ByteArray(width * height + getCWidth() * getCHeight() * 2)
                 ta.copyFrom(rawImage.data)
                 syuv.setInput(ta)
                 syuv.forEach(aout)

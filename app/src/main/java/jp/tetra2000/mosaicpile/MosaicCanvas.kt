@@ -3,6 +3,7 @@ package jp.tetra2000.mosaicpile
 import android.graphics.Bitmap
 import android.util.Log
 import processing.core.PApplet
+import processing.core.PImage
 
 class MosaicCanvas : PApplet(), MainActivity.NewImageCallback {
     private val LOG_TAG = "MosaicCanvas"
@@ -20,13 +21,8 @@ class MosaicCanvas : PApplet(), MainActivity.NewImageCallback {
 //        Log.d(LOG_TAG, "draw")
 
         if (lastFrame!=null) {
-            for (y in (0..lastFrame!!.height-1)){
-                for (x in (0..lastFrame!!.width-1)) {
-                    fill(lastFrame!!.getPixel(x, y))
-                    stroke(lastFrame!!.getPixel(x, y))
-                    point(x.toFloat(), y.toFloat())
-                }
-            }
+            val img = PImage(lastFrame)
+            image(img, 0f, 0f);
         }
     }
 
