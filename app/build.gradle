@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "jp.tetra2000.mosaicpile"
-        minSdkVersion 16
+        minSdkVersion 17 // to use ScriptIntrinsicYuvToRGB
         targetSdkVersion 22 //FIXME temporary downgrade
         versionCode 1
         versionName "1.0"
@@ -20,6 +20,11 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+
+        defaultConfig {
+            renderscriptTargetApi 18
+            renderscriptSupportModeEnabled false
+        }
     }
 
     dataBinding {
@@ -29,6 +34,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
