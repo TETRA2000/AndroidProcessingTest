@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.renderscript.Allocation
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicYuvToRGB
+import android.view.WindowManager
 import jp.tetra2000.mosaicpile.databinding.ActivityMainBinding
 import jp.tetra2000.mosaicpile.util.CameraUtil
 import jp.tetra2000.mosaicpile.util.RawImage
@@ -33,6 +34,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val fragmentManager = fragmentManager
