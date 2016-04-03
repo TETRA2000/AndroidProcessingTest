@@ -1,5 +1,6 @@
 package jp.tetra2000.mosaicpile
 
+import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.ImageFormat
@@ -10,12 +11,12 @@ import android.os.Bundle
 import android.renderscript.Allocation
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicYuvToRGB
-import android.support.v7.app.AppCompatActivity
+import android.view.WindowManager
 import jp.tetra2000.mosaicpile.databinding.ActivityMainBinding
 import jp.tetra2000.mosaicpile.util.CameraUtil
 import jp.tetra2000.mosaicpile.util.RawImage
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
     private val NUM_BITMAPS = 1
 
     var newImageCallback: NewImageCallback? = null
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val fragmentManager = fragmentManager
