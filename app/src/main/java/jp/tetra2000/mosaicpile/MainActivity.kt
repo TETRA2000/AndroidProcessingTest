@@ -1,5 +1,6 @@
 package jp.tetra2000.mosaicpile
 
+import android.app.Activity
 import android.databinding.DataBindingUtil
 import android.graphics.Bitmap
 import android.graphics.ImageFormat
@@ -10,12 +11,11 @@ import android.os.Bundle
 import android.renderscript.Allocation
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicYuvToRGB
-import android.support.v7.app.AppCompatActivity
 import jp.tetra2000.mosaicpile.databinding.ActivityMainBinding
 import jp.tetra2000.mosaicpile.util.CameraUtil
 import jp.tetra2000.mosaicpile.util.RawImage
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
     private val NUM_BITMAPS = 1
 
     var newImageCallback: NewImageCallback? = null
