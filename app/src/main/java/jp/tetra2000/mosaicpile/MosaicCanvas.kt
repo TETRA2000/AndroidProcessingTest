@@ -8,11 +8,13 @@ import processing.core.PImage
 
 class MosaicCanvas : PApplet(), MainActivity.NewImageCallback {
     private val LOG_TAG = "MosaicCanvas"
-    private var lastFrame: Bitmap? = null
+    private val MIN_MOSAIC_STEP = 200
+    private val MAX_MOSAIC_STEP = Math.min(width, height)
 
-    private var mosaicSize: Int = 10
+    private var lastFrame: Bitmap? = null
+    private var mosaicSize: Int = MIN_MOSAIC_STEP
     set(value) {
-        if (value>=10 || value<=Math.min(width, height)) {
+        if (value>=MIN_MOSAIC_STEP || value<=MAX_MOSAIC_STEP) {
             field = value
         }
     }
@@ -28,16 +30,18 @@ class MosaicCanvas : PApplet(), MainActivity.NewImageCallback {
 
     override fun draw() {
         if (mousePressed) {
-            mosaicSize = 50 * width / (if(mouseX > 0)  mouseX else 1)
+            mosaicSize = 40 * width / (if(mouseX > 0)  mouseX else 1)
             Log.d("mousePressed", "mosaicSize"+mosaicSize.toString())
         }
 
         if (lastFrame != null) {
             val img = PImage(lastFrame)
             img.loadPixels()
-            img.resize(width, height)
-            img.loadPixels()
-            img.updatePixels()
+            if (img.width != width || img.height != height) {
+                img.resize(width, height)
+                img.loadPixels()
+                img.updatePixels()
+            }
             // FIXME get img width, height
             for (y in 0..height step mosaicSize) {
                 for (x in 0..width step mosaicSize) {
